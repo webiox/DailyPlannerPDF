@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024.csproj": {}
+    "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\DailyPlanner2024.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024.csproj": {
+    "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\DailyPlanner2024.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024.csproj",
+        "projectUniqueName": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\DailyPlanner2024.csproj",
         "projectName": "DailyPlanner2024",
-        "projectPath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024.csproj",
+        "projectPath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\DailyPlanner2024.csproj",
         "packagesPath": "C:\\Users\\shari\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\obj\\",
+        "outputPath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\shari\\AppData\\Roaming\\NuGet\\NuGet.Config",

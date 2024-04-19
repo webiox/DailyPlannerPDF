@@ -8,13 +8,13 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using System.Text;
 
 // Start date: January 1st, 2024
 DateTime startDate = new DateTime(2024, 1, 1);
 
 // End date: December 31st, 2024
-DateTime endDate = new DateTime(2024, 12, 31);
+//DateTime endDate = new DateTime(2024, 12, 31);
+DateTime endDate = new DateTime(2024, 1, 2);
 
 // Set the desired page size
 PageSize pageSize = PageSize.A4; // You can use other standard sizes or define custom sizes
@@ -40,10 +40,11 @@ for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
     backgroundImage.ScaleToFit(outputPage.GetPageSize().GetWidth(), outputPage.GetPageSize().GetHeight());
     document.Add(backgroundImage);
 
-    // Specify the path to the font file
-    //PdfFont fontSamim = PdfFontFactory.CreateFont("samim.ttf");
+    // Specify the path to the font file that supports Persian characters
     PdfFont fontSamim = PdfFontFactory.CreateFont("samim.ttf", PdfEncodings.IDENTITY_H);
-
+    PdfFont fontSamimFD = PdfFontFactory.CreateFont("Samim-FD.ttf", PdfEncodings.IDENTITY_H);
+    PdfFont fontSamimFDWol = PdfFontFactory.CreateFont("Samim-FD-WOL.ttf", PdfEncodings.IDENTITY_H);
+    //document.SetFont(fontSamim);
 
     // set the paragraph
     //var paragraph = new Paragraph($"Date: {date:dddd, MMMM d, yyyy}");
@@ -85,7 +86,7 @@ for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
         120, 783,
         pageNumber,
         TextAlignment.LEFT,
-    VerticalAlignment.TOP,
+        VerticalAlignment.TOP,
         0);
 
     // PERSIAN
@@ -96,13 +97,21 @@ for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
     paragraphPersian.SetBold();
     paragraphPersian.SetCharacterSpacing(0);
     paragraphPersian.SetFontColor(new DeviceRgb(34, 34, 34));
+    paragraphPersian.SetBaseDirection(BaseDirection.RIGHT_TO_LEFT);
     paragraphPersian.SetTextAlignment(TextAlignment.RIGHT);
-    document.ShowTextAligned(paragraphPersian,
-        120, 762,
-        pageNumber,
-        TextAlignment.RIGHT,
-        VerticalAlignment.TOP,
-        0);
+    document.Add(paragraphPersian);
+
+    //Table table = new Table(1);
+    //table.SetBaseDirection(BaseDirection.RIGHT_TO_LEFT);
+    //table.AddCell(paragraphPersian);
+    //document.Add(table);
+
+    //document.ShowTextAligned(paragraphPersian,
+    //    120, 762,
+    //    pageNumber,
+    //    TextAlignment.RIGHT,
+    //    VerticalAlignment.TOP,
+    //    0);
 
     // Add a new page if it's not the last day of the year
     if (date != endDate)

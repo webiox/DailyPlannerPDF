@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "C6BY7Po0SAC+IE+QVdtyfYyvNZyQzJ6MAEX7RMH38NpNAl6pMsogUDXLZTyxAwiVTZyXW1GgP1EvYhECdYitDQ==",
+  "dgSpecHash": "gX7fzdV2Fizu5F06sDnLfuLGWbxM1iNsjq8ZHrcAFd5ZEhz9w0yMDLT9k1eQEBrvsiLhEfkJq9Xi5VqeLB9kCA==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024\\DailyPlanner2024.csproj",
+  "projectFilePath": "D:\\Projects\\GoodnotesCustomTemplates\\DailyPlannerPDF\\DailyPlanner2024\\DailyPlanner2024.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\shari\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "C:\\Users\\shari\\.nuget\\packages\\dntpersianutils.core\\6.2.0\\dntpersianutils.core.6.2.0.nupkg.sha512",
