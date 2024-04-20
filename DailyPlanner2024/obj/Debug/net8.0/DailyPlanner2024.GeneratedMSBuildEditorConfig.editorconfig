@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DailyPlanner2024
-build_property.ProjectDir = D:\Projects\GoodnotesCustomTemplates\DailyPlannerPDF\DailyPlanner2024\
+build_property.ProjectDir = C:\My_Area\DailyPlannerPDF\DailyPlanner2024\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

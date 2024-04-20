@@ -1,124 +1,102 @@
-﻿using DNTPersianUtils.Core;
-using iText.IO.Font;
-using iText.IO.Image;
-using iText.Kernel.Colors;
-using iText.Kernel.Font;
-using iText.Kernel.Geom;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
+﻿//https://www.c-sharpcorner.com/UploadFile/f2e803/basic-pdf-creation-using-itextsharp-part-i/
 
-// Start date: January 1st, 2024
-DateTime startDate = new DateTime(2024, 1, 1);
-
-// End date: December 31st, 2024
-//DateTime endDate = new DateTime(2024, 12, 31);
-DateTime endDate = new DateTime(2024, 1, 2);
-
-// Set the desired page size
-PageSize pageSize = PageSize.A4; // You can use other standard sizes or define custom sizes
-
-// Create a new PDF document
-PdfDocument pdfDoc = new PdfDocument(new PdfWriter("365Days.pdf"));
-
-// Create a document
-Document document = new Document(pdfDoc, pageSize);
-
-// get bg image
-Image backgroundImage = new Image(ImageDataFactory.Create("template_yellow.png"));
-
-var pageNumber = 0;
-// Iterate through each day from start date to end date
-for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+using DNTPersianUtils.Core;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+class Program
 {
-    // Create a new page
-    var outputPage = pdfDoc.AddNewPage();
-    pageNumber++;
+    static void Main(string[] args)
+    {
+        // set encoding
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-    backgroundImage.SetFixedPosition(outputPage.GetPageSize().GetLeft(), outputPage.GetPageSize().GetBottom());
-    backgroundImage.ScaleToFit(outputPage.GetPageSize().GetWidth(), outputPage.GetPageSize().GetHeight());
-    document.Add(backgroundImage);
+        // configure doc
+        FileStream fileStream = new FileStream("2024_1402_DailyPlanner.pdf", FileMode.Create);
+        Document document = new Document(PageSize.A4);
+        PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
 
-    // Specify the path to the font file that supports Persian characters
-    PdfFont fontSamim = PdfFontFactory.CreateFont("samim.ttf", PdfEncodings.IDENTITY_H);
-    PdfFont fontSamimFD = PdfFontFactory.CreateFont("Samim-FD.ttf", PdfEncodings.IDENTITY_H);
-    PdfFont fontSamimFDWol = PdfFontFactory.CreateFont("Samim-FD-WOL.ttf", PdfEncodings.IDENTITY_H);
-    //document.SetFont(fontSamim);
+        // fonts
+        //Create a base font object making sure to specify IDENTITY-H
+        var fontTahoma = BaseFont.CreateFont("C:/Windows/Fonts/tahoma.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var fontSamim = BaseFont.CreateFont("Samim.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var fontShabnam = BaseFont.CreateFont("Shabnam.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-    // set the paragraph
-    //var paragraph = new Paragraph($"Date: {date:dddd, MMMM d, yyyy}");
-    //var paragraph = new Paragraph($"{date.Day}");
+        // get bg image
+        Image backgroundImage = Image.GetInstance("template_yellow.png");
+        backgroundImage.ScaleToFit(document.PageSize.Width, document.PageSize.Height);
+        backgroundImage.Alignment = Image.UNDERLYING;
+        backgroundImage.SetAbsolutePosition(0, 0);
 
-    // Day Of Month
-    var paragraphDay = new Paragraph($"{date.ToString("dd")}");
-    paragraphDay.SetFont(fontSamim).SetFontSize(45); // Set the font size to 12 points
-    paragraphDay.SetBold();
-    paragraphDay.SetCharacterSpacing(-1);
-    paragraphDay.SetFontColor(new DeviceRgb(34, 34, 34));
-    document.ShowTextAligned(paragraphDay,
-        106, 810,
-        pageNumber,
-        TextAlignment.RIGHT,
-        VerticalAlignment.TOP,
-        0);
+        // Start date: January 1st, 2024
+        DateTime startDate = new DateTime(2024, 1, 1);
+        DateTime endDate = new DateTime(2024, 12, 31);
 
-    // DAY OF WEEK
-    var paragraphDayOfWeek = new Paragraph($"{date.DayOfWeek.ToString().ToUpper()}");
-    paragraphDayOfWeek.SetFont(fontSamim).SetFontSize(12); // Set the font size to 12 points
-    paragraphDayOfWeek.SetBold();
-    paragraphDayOfWeek.SetCharacterSpacing(0);
-    paragraphDayOfWeek.SetFontColor(new DeviceRgb(34, 34, 34));
-    document.ShowTextAligned(paragraphDayOfWeek,
-        120, 794,
-        pageNumber,
-        TextAlignment.LEFT,
-        VerticalAlignment.TOP,
-        0);
+        //Open document for writing
+        document.Open();
 
-    // MONTH
-    var paragraphMonth = new Paragraph($"{date.ToString("MMM")} {date.Year}");
-    paragraphMonth.SetFont(fontSamim).SetFontSize(16); // Set the font size to 12 points
-    paragraphMonth.SetBold();
-    paragraphMonth.SetCharacterSpacing(-1);
-    paragraphMonth.SetFontColor(new DeviceRgb(34, 34, 34));
-    document.ShowTextAligned(paragraphMonth,
-        120, 783,
-        pageNumber,
-        TextAlignment.LEFT,
-        VerticalAlignment.TOP,
-        0);
+        var pageNumber = 0;
+        // Iterate through each day from start date to end date
+        for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+        {
+            //Add a page
+            document.NewPage();
+            pageNumber++;
 
-    // PERSIAN
-    string hassan = date.ToPersianDateTextify();
+            // add bg
+            document.Add(backgroundImage);
 
-    var paragraphPersian = new Paragraph(hassan);
-    paragraphPersian.SetFont(fontSamim).SetFontSize(10); // Set the font size to 12 points
-    paragraphPersian.SetBold();
-    paragraphPersian.SetCharacterSpacing(0);
-    paragraphPersian.SetFontColor(new DeviceRgb(34, 34, 34));
-    paragraphPersian.SetBaseDirection(BaseDirection.RIGHT_TO_LEFT);
-    paragraphPersian.SetTextAlignment(TextAlignment.RIGHT);
-    document.Add(paragraphPersian);
+            // Day Of Month
+            var dayOfMonthContent = $"{date.ToString("dd")}";
+            var dayOfMonthFont = new Font(fontSamim, 45, Font.BOLD, new BaseColor(77, 73, 65));
+            ColumnText.ShowTextAligned(writer.DirectContent,
+                                        Element.ALIGN_RIGHT, // text align
+                                        new Phrase(dayOfMonthContent, dayOfMonthFont), // content
+                                        document.PageSize.Width - 492, // x
+                                        753, // y
+                                        0,// rotation
+                                        PdfWriter.RUN_DIRECTION_LTR, // direction
+                                        0); // arabic options
 
-    //Table table = new Table(1);
-    //table.SetBaseDirection(BaseDirection.RIGHT_TO_LEFT);
-    //table.AddCell(paragraphPersian);
-    //document.Add(table);
+            // DAY OF WEEK
+            var dayOfWeekContent = $"{date.DayOfWeek.ToString().ToUpper()}";
+            var dayOfWeekFont = new Font(fontSamim, 12, Font.BOLD, new BaseColor(77, 73, 65));
+            ColumnText.ShowTextAligned(writer.DirectContent,
+                                        Element.ALIGN_LEFT, // text align
+                                        new Phrase(dayOfWeekContent, dayOfWeekFont), // content
+                                        document.PageSize.Width - 469, // x
+                                        779, // y
+                                        0,// rotation
+                                         PdfWriter.RUN_DIRECTION_LTR, // direction
+                                        0); // arabic options
 
-    //document.ShowTextAligned(paragraphPersian,
-    //    120, 762,
-    //    pageNumber,
-    //    TextAlignment.RIGHT,
-    //    VerticalAlignment.TOP,
-    //    0);
+            // MONTH and YEAR
+            var monthYearContent = $"{date.ToString("MMM")} {date.Year}";
+            var monthYearFont = new Font(fontSamim, 16, Font.BOLD, new BaseColor(77, 73, 65));
+            ColumnText.ShowTextAligned(writer.DirectContent,
+                                        Element.ALIGN_LEFT, // text align
+                                        new Phrase(monthYearContent, monthYearFont), // content
+                                        document.PageSize.Width - 469, // x
+                                        763, // y
+                                        0,// rotation
+                                         PdfWriter.RUN_DIRECTION_LTR, // direction
+                                        0); // arabic options
 
-    // Add a new page if it's not the last day of the year
-    if (date != endDate)
-        document.Add(new AreaBreak());
+            // Shamsi Date
+            var shamsiContent = date.ToPersianDateTextify();
+            var shamsiFont = new Font(fontShabnam, 10, Font.BOLD, new BaseColor(77, 73, 65));
+            ColumnText.ShowTextAligned(writer.DirectContent,
+                                        Element.ALIGN_LEFT, // text align
+                                        new Phrase(shamsiContent, shamsiFont), // content
+                                        document.PageSize.Width - 469, // x
+                                        750, // y
+                                        0,// rotation
+                                         PdfWriter.RUN_DIRECTION_RTL, // direction
+                                        0); // arabic options
+        }
+
+        //Close the PDF
+        document.Close();
+        writer.Close();
+        Console.WriteLine("PDF created successfully!");
+    }
 }
-
-// Close the document
-document.Close();
-
-Console.WriteLine("PDF created successfully!");
